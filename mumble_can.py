@@ -1,4 +1,21 @@
 import random
+from time import sleep
+
+def hesitate():
+    for i in range(1,4):
+        sleep(0.5)
+        s = "."
+        for j in range(1, i):
+            s += "."
+        print(s)
+
+def reach_in_can():
+    print("\nYou reach into the can...\n")
+    hesitate()
+    
+def drop_into_can(what):
+    print(f"\nYou drop {what} into the can...\n")
+    hesitate()
 
 def can_contents():
     could_have = ['coins', 'donuts']
@@ -10,14 +27,15 @@ def can_coins():
     
 def take(inventory):
     took = can_contents()
+    reach_in_can()
     if (took == 'coins'):
         coins = can_coins()
         inventory['coins'] += coins
-        print(f"[You reached in the can and took {coins} coins.]")
+        print(f"[...and took {coins} coins.]")
         print("\n\t'What's wrong with you?  That money is for the children!'\n")
         inventory['score'] -= (20 * coins)
     else:
-        print("[You scored a donut! Yum...]")
+        print("[...and scored a donut! Yum...]")
         inventory['donuts'] += 1
         inventory['score'] += 100
         
@@ -36,19 +54,21 @@ def give_coins(inventory):
             return
         give = int(response)
     inventory['coins'] -= give
+    drop_into_can(f"{give} coins")
     if can_contents() == 'coins':
         print(f"[You gave {give} coins.]")
         print("\n\t'The children thank you, man!'\n")
-        inventory['score'] += (50 * coins)
+        inventory['score'] += (50 * give)
     else:
         print("\n\t'What's wrong with you??? You're ruining the donuts with those filthy coins!!!'\n")
-        inventory['score'] -= (10 * coins)
+        inventory['score'] -= (10 * give)
     
 def give_donut(inventory):
     if inventory['donuts'] < 1:
         print("You don't have any donuts to give.")
         return
     inventory['donuts'] -= 1
+    drop_into_can('a donut')
     print("You gave a donut...")
     if can_contents() == 'donuts':
         print("\n\t'Thanks for the donut, bro!'\n")
