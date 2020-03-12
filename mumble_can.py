@@ -9,6 +9,10 @@ def hesitate():
             s += "."
         print(s)
 
+
+def pause():
+    sleep(0.8)
+
 def reach_in_can():
     print("\nYou reach into the can...\n")
     hesitate()
@@ -32,16 +36,20 @@ def take(inventory):
         coins = can_coins()
         inventory['coins'] += coins
         print(f"[...and took {coins} coins.]")
+        pause()
         print("\n\t'What's wrong with you?  That money is for the children!'\n")
+        pause()
         inventory['score'] -= (20 * coins)
     else:
         print("[...and scored a donut! Yum...]")
         inventory['donuts'] += 1
         inventory['score'] += 100
-        
+        pause() 
+  
 def give_coins(inventory):
     if inventory['coins'] < 1:
         print("You don't have any money to give.")
+        pause()
         return
     quit = False
     give = inventory['coins'] + 1
@@ -50,6 +58,7 @@ def give_coins(inventory):
         response = input(">")
         if (response == 'q' or int(response) == 0):
             print("\n\t'Cheapskate!!!  It's for the kids!!!'\n")
+            pause()
             inventory['score'] -= 100
             return
         give = int(response)
@@ -57,10 +66,13 @@ def give_coins(inventory):
     drop_into_can(f"{give} coins")
     if can_contents() == 'coins':
         print(f"[You gave {give} coins.]")
+        pause() 
         print("\n\t'The children thank you, man!'\n")
+        pause() 
         inventory['score'] += (50 * give)
     else:
         print("\n\t'What's wrong with you??? You're ruining the donuts with those filthy coins!!!'\n")
+        pause()
         inventory['score'] -= (10 * give)
     
 def give_donut(inventory):
@@ -73,6 +85,7 @@ def give_donut(inventory):
     if can_contents() == 'donuts':
         print("\n\t'Thanks for the donut, bro!'\n")
         inventory['score'] += 75
+        pause()
     else:
         print("\n\t'What the heck??? A linty donut??? The children need MONEY, man!'\n")
         inventory['score'] -= 50
